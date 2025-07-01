@@ -1,9 +1,10 @@
 import { FireData, ISSPosition } from '../types';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // fetchWildfireData
 export const fetchWildfireData = async (hours: number = 24): Promise<FireData[]> => {
   try {
-    const res = await fetch(`/api/wildfire?days=${hours <= 24 ? 1 : hours >= 168 ? 7 : 3}`);
+    const res = await fetch(`${BACKEND_URL}/api/wildfire?days=${hours <= 24 ? 1 : hours >= 168 ? 7 : 3}`);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     
     const csvText = await res.text();
@@ -17,7 +18,7 @@ export const fetchWildfireData = async (hours: number = 24): Promise<FireData[]>
 // fetchISSPosition
 export const fetchISSPosition = async (): Promise<ISSPosition | null> => {
   try {
-    const res = await fetch('/api/iss');
+    const res = await fetch(`${BACKEND_URL}/api/iss`);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     
     const data = await res.json();
