@@ -1,16 +1,15 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { ISSData } from '../types';
 
 const router = express.Router();
-
 const N2YO_API_KEY = 'SKHSPH-8JWAVD-2DSUMW-5IPN';
 
-router.get('/', async (req, res) => {
-  const lat = req.query.lat || 21.18596;
-  const lng = req.query.lng || 72.76407;
-  const alt = req.query.alt || 17;
-  const duration = req.query.duration || 1;
+router.get('/', async (req: Request, res: Response) => {
+  const lat = parseFloat(req.query.lat as string) || 21.18596;
+  const lng = parseFloat(req.query.lng as string) || 72.76407;
+  const alt = parseFloat(req.query.alt as string) || 17;
+  const duration = parseInt(req.query.duration as string) || 1;
 
   const url = `https://api.n2yo.com/rest/v1/satellite/positions/25544/${lat}/${lng}/${alt}/${duration}?apiKey=${N2YO_API_KEY}`;
 
